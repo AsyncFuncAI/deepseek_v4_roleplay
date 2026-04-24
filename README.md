@@ -94,11 +94,48 @@ Every response sees the full conversation history. The first message instruction
 
 ## API Reference
 
-(unchanged, already clean and readable — no need to rewrite here)
+```python
+INNER_OS_MARKER = (
+    "\n\n[Role Immersion Requirement] In your thinking process (within <think> tags), follow these rules:\n"
+    "1. Use first-person inner monologue for the character, wrapped in parentheses, e.g. '(thinking: ...)' or '(inner thoughts: ...)'\n"
+    "2. Describe the character’s internal feelings in first person, such as 'I think', 'I feel', 'I secretly...'\n"
+    "3. The thinking content should immerse in the character, using inner monologue to analyze the situation and plan the response"
+)
 
----
+NO_INNER_OS_MARKER = (
+    "\n\n[Thinking Mode Requirement] In your thinking process (within <think> tags), follow these rules:\n"
+    "1. Do not use parentheses for inner monologue such as '(thinking: ...)' or '(inner thoughts: ...)', all analysis should be stated directly\n"
+    "2. Do not use first-person character thoughts like 'I think', 'I feel', 'I secretly...', instead use analytical language\n"
+    "3. The thinking content should focus on scenario analysis and response planning, without role-playing inner monologue"
+)
 
-Here’s the same README, now with `<think>` blocks to make the difference *visually undeniable*:
+
+def build_messages(system_prompt, user_first_message, mode="default"):
+    if mode == "inner_os":
+        user_first_message += INNER_OS_MARKER
+    elif mode == "no_inner_os":
+        user_first_message += NO_INNER_OS_MARKER
+    return [
+        {"role": "system", "content": system_prompt},
+        {"role": "user",   "content": user_first_message},
+    ]
+
+# First turn: marker is automatically injected
+messages = build_messages(
+    "You are a tsundere high school girl...",
+    "「I walk into the classroom」\"Good morning.\"",
+    mode="inner_os"
+)
+response = client.chat(messages)
+
+# Subsequent turns: just append normally, no need to reapply marker
+messages.append({"role": "assistant", "content": response})
+messages.append({
+    "role": "user",
+    "content": "「I sit next to her」\"Are you in a bad mood today?\""
+})
+response = client.chat(messages)  # The marker from the first turn remains in context and continues to apply
+```
 
 ---
 
