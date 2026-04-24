@@ -279,5 +279,8 @@ Thinking Mode = How to think
 
 ---
 
+## Credits 
+victorchen96. Chinese Version: https://github.com/victorchen96/deepseek_v4_rolepaly_instruct/blob/main/README.md
+
 
 
