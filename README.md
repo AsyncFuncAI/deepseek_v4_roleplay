@@ -1,8 +1,6 @@
 # deepseek_v4_roleplay
 Instruction to setup hidden deepseek's roleplay reasoning.
 
-Here’s a clean, natural American English version with better flow:
-
 ---
 
 # DeepSeek Roleplay — Thinking Mode Switching Guide
