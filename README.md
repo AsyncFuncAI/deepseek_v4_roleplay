@@ -45,7 +45,7 @@ Limit to 150 words. Use action first, then dialogue.
 
 ---
 
-## Copy-Paste Instructions
+## 2 Hidden Modes.
 
 ### Character Immersion Mode
 
